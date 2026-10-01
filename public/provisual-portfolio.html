@@ -256,9 +256,9 @@ function build(){
  INST(new THREE.PlaneGeometry(1,1),lm,CM,CC,true);
  // distant city skyline on the horizon
  var BM=[],BC=[],sky1=new THREE.MeshStandardMaterial({roughness:.92,metalness:.05});
- for(i=0;i<(MOB?44:70);i++){var an3=H(i,1,41)*6.283,rd3=155+H(i,2,41)*95,bx=Math.cos(an3)*rd3,bz=Math.sin(an3)*rd3-15;
-  var tall=rd3>195&&H(i,6,41)>.6,grow=.45+.55*(rd3-155)/95,bw2=(7+H(i,3,41)*14)*grow,bd2=(7+H(i,4,41)*12)*grow;
-  var bh2=(tall?30+H(i,5,41)*48:8+H(i,5,41)*16)*grow;
+ for(i=0;i<(MOB?50:80);i++){var an3=H(i,1,41)*6.283,rd3=155+H(i,2,41)*95,bx=Math.cos(an3)*rd3,bz=Math.sin(an3)*rd3-15;
+  var tall=H(i,6,41)>.45,grow=.45+.55*(rd3-155)/95,bw2=(9+H(i,3,41)*16)*grow,bd2=(9+H(i,4,41)*14)*grow;
+  var bh2=(tall?42+H(i,5,41)*66:18+H(i,5,41)*22)*grow;
   o3.position.set(bx,bh2/2,bz);o3.rotation.set(0,(H(i,7,41)-.5)*.5,0);o3.scale.set(bw2,bh2,bd2);o3.updateMatrix();
   BM.push(o3.matrix.clone());BC.push(new THREE.Color().setHSL(.58,.05+H(i,8,41)*.05,.5+H(i,9,41)*.2))}
  INST(new THREE.BoxGeometry(1,1,1),sky1,BM,BC,false);
