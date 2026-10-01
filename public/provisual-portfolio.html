@@ -263,7 +263,7 @@ function FIX(n){dbg('black frame -> safe step '+n);
  if(n==7){R.shadowMap.enabled=false;allMats(function(m){m.needsUpdate=true})}
  if(n==8)sc.add(new THREE.AmbientLight(0xffffff,1.2));
 }
-function chk(){var gl=R.getContext(),bf=new Uint8Array(4),bad=1,W=gl.drawingBufferWidth,Hh=gl.drawingBufferHeight;[[.2,.1],[.5,.15],[.8,.1],[.35,.25],[.65,.25]].forEach(function(p){gl.readPixels(W*p[0]|0,Hh*p[1]|0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,bf);if(bf[0]+bf[1]+bf[2]>12)bad=0});if(!bad){if(SAFE)dbg('fixed at step '+SAFE);SAFE=99}else if(SAFE<8)FIX(++SAFE)}
+function chk(){var gl=R.getContext(),bf=new Uint8Array(4),bad=1,W=gl.drawingBufferWidth,Hh=gl.drawingBufferHeight;[[.2,.1],[.5,.15],[.8,.1],[.35,.25],[.65,.25]].forEach(function(p){gl.readPixels(W*p[0]|0,Hh*p[1]|0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,bf);if(bf[0]+bf[1]+bf[2]>60)bad=0});if(!bad){if(SAFE)dbg('fixed at step '+SAFE);SAFE=99}else if(SAFE<8)FIX(++SAFE)}
 var drag=0,dxA=0,dyA=0;addEventListener('pointerdown',function(e){if(e.pointerType==='mouse'&&e.button===0){drag=1;document.documentElement.style.cursor='grabbing'}});addEventListener('pointerup',function(){drag=0;document.documentElement.style.cursor=''});addEventListener('pointermove',function(e){if(drag){dxA=clamp(dxA-e.movementX*.004,-1.4,1.4);dyA=clamp(dyA+e.movementY*.003,-.5,.5)}});
 var shE=document.getElementById('sh'),ldE=document.getElementById('ld'),lr=-1,lp=-1;
 function draw(p,ts){
@@ -272,8 +272,8 @@ function draw(p,ts){
  var px=a.x+smx*.05+Math.sin(s*.22)*1.6*ex,py=a.y+smy*.02+Math.sin(s*.17)*.25*ex+Math.sin(s*.6)*.012*(1-ex),pz=a.z+Math.cos(s*.19)*1.2*ex,tx=Lk.x+smx*.35,ty=Lk.y-smy*.12-dyA*.8,tz=Lk.z,th=dxA*ex*1.2,c1=Math.cos(th),s1=Math.sin(th),X=px*c1+pz*s1,Z=-px*s1+pz*c1,TX=tx*c1+tz*s1,TZ=-tx*s1+tz*c1,vx=TX-X,vz=TZ-Z,yw=dxA*(1-ex)*.9,c2=Math.cos(yw),s2=Math.sin(yw);
  cam.position.set(X,py,Z);cam.lookAt(X+vx*c2+vz*s2,ty,Z-vx*s2+vz*c2);fill.position.set(a.x,2.3,a.z);
  for(var k=0;k<ANIM.length;k++)ANIM[k](s);
- R.render(sc,cam);if(SAFE<99&&t<.02&&++fc%24===0)chk();
- if(ldE){ldE.style.opacity=0;var l0=ldE;setTimeout(function(){l0.remove()},900);ldE=0}
+ R.render(sc,cam);if(SAFE<99&&++fc%3===0)chk();
+ if(ldE&&(SAFE>=99||SAFE>=8)){ldE.style.opacity=0;var l0=ldE;setTimeout(function(){l0.remove()},900);ldE=0}
  if(shE)shE.style.opacity=t<.012?.9:0;
  if(room!==lr){lr=room;var r=ROOMS[room];mini.style.opacity=1;shade.style.opacity=1;prog.style.opacity=1;document.getElementById('cn').textContent=('0'+room).slice(-2)+' / 09';document.getElementById('ct').textContent=r[0];document.getElementById('cp').textContent=r[1];document.getElementById('mroom').textContent=r[0];cap.classList.add('on')}
  if(t!==lp){lp=t;pb.style.height=t*100+'%'}
