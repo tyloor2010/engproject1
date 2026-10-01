@@ -7,12 +7,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Explore Provisual's immersive architectural portfolio through a cinematic 3D chalet walkthrough.",
+          "Provisual is a 3D architectural visualization studio. Walk through a photorealistic chalet in a cinematic, real-time 3D tour — architecture, interiors and landscape rendered like photography.",
       },
       { property: "og:title", content: "Provisual — 3D Architectural Visualization Studio" },
       {
         property: "og:description",
-        content: "An immersive 3D architectural portfolio by Provisual.",
+        content:
+          "Walk through a photorealistic chalet in a cinematic real-time 3D tour by Provisual, a 3D architectural visualization studio.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
