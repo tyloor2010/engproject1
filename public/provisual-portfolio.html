@@ -256,10 +256,11 @@ function build(){
  INST(new THREE.PlaneGeometry(1,1),lm,CM,CC,true);
  // distant city skyline on the horizon
  var BM=[],BC=[],sky1=new THREE.MeshStandardMaterial({roughness:.92,metalness:.05});
- for(i=0;i<(MOB?44:70);i++){var an3=H(i,1,41)*6.283,rd3=135+H(i,2,41)*80,bx=Math.cos(an3)*rd3,bz=Math.sin(an3)*rd3-15;
-  var tall=H(i,6,41)>.72,bw2=7+H(i,3,41)*(tall?9:16),bd2=7+H(i,4,41)*(tall?9:14),bh2=tall?38+H(i,5,41)*62:10+H(i,5,41)*22;
+ for(i=0;i<(MOB?44:70);i++){var an3=H(i,1,41)*6.283,rd3=155+H(i,2,41)*95,bx=Math.cos(an3)*rd3,bz=Math.sin(an3)*rd3-15;
+  var tall=rd3>195&&H(i,6,41)>.6,grow=.45+.55*(rd3-155)/95,bw2=(7+H(i,3,41)*14)*grow,bd2=(7+H(i,4,41)*12)*grow;
+  var bh2=(tall?30+H(i,5,41)*48:8+H(i,5,41)*16)*grow;
   o3.position.set(bx,bh2/2,bz);o3.rotation.set(0,(H(i,7,41)-.5)*.5,0);o3.scale.set(bw2,bh2,bd2);o3.updateMatrix();
-  BM.push(o3.matrix.clone());BC.push(new THREE.Color().setHSL(.58,.04+H(i,8,41)*.05,.48+H(i,9,41)*.24))}
+  BM.push(o3.matrix.clone());BC.push(new THREE.Color().setHSL(.58,.05+H(i,8,41)*.05,.5+H(i,9,41)*.2))}
  INST(new THREE.BoxGeometry(1,1,1),sky1,BM,BC,false);
  // grass tufts
  var gc=document.createElement('canvas');gc.width=gc.height=128;var gq=gc.getContext('2d');for(i=0;i<46;i++){var gg=150+H(i,4,21)*105,bx=10+H(i,1,21)*108,bh=40+H(i,2,21)*80,bw=(H(i,3,21)-.5)*30;gq.strokeStyle='rgb('+(gg*.8|0)+','+(gg|0)+','+(gg*.6|0)+')';gq.lineWidth=2+H(i,5,21)*2;gq.beginPath();gq.moveTo(bx,128);gq.quadraticCurveTo(bx+bw*.3,128-bh*.6,bx+bw,128-bh);gq.stroke()}
