@@ -249,7 +249,7 @@ function build(){
  sc.traverse(function(o){if(o.isMesh&&o.material&&o.material.isMeshStandardMaterial){o.receiveShadow=true}});R.shadowMap.needsUpdate=true;R.compile(sc,cam);ready=true;draw(0);
 }
 var SAFE=0,fc=0,dbgE=document.getElementById('dbg'),dbgN=0;
-function dbg(){}
+function dbg(m){console.log("DBG "+m)}
 ['error','warn'].forEach(function(k){var o=console[k];console[k]=function(){try{dbg(k+': '+[].slice.call(arguments).join(' ').slice(0,200))}catch(e){}o.apply(console,arguments)}});
 addEventListener('error',function(e){dbg('ERR '+e.message)});
 function allMats(f){sc.traverse(function(o){if(o.material)[].concat(o.material).forEach(function(m){f(m,o)})})}
