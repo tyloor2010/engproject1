@@ -55,7 +55,7 @@ function PM(c,s,rep,o,bs){var t=TX(c,rep);o.map=t[0];o.bumpMap=t[1];o.bumpScale=
 function build(){
  var cv=document.createElement('canvas');cv.id='gl';document.body.prepend(cv);
  R=new THREE.WebGLRenderer({canvas:cv,antialias:true,powerPreference:'high-performance'});R.setPixelRatio(Math.min(devicePixelRatio,MOB?1.25:1.5));R.setSize(vw,vh);
- R.outputEncoding=THREE.sRGBEncoding;R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=.95;
+ R.outputEncoding=THREE.sRGBEncoding;R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.25;
  R.shadowMap.enabled=false;R.shadowMap.type=THREE.PCFSoftShadowMap;R.shadowMap.autoUpdate=false;
  sc=new THREE.Scene();sc.fog=new THREE.Fog(0xb8ccdb,60,240);
  var g=document.createElement('canvas');g.width=4;g.height=256;var x=g.getContext('2d'),gr=x.createLinearGradient(0,0,0,256);
@@ -232,7 +232,7 @@ function build(){
  var GM=[],GC=[],GN=MOB?1000:2400;for(var q2=0,n2=0;n2<GN&&q2<GN*4;q2++){var gx=(H(q2,1,31)-.5)*90,gz=-45+H(q2,2,31)*100;if((Math.abs(gx)<12.8&&Math.abs(gz)<7.8)||(Math.abs(gx)<17.5&&gz>4&&gz<18.6))continue;n2++;var ry=H(q2,3,31)*3.14,sc3=.7+H(q2,4,31)*.9;for(var w=0;w<2;w++){o3.position.set(gx,0,gz);o3.rotation.set(0,ry+w*1.5708,0);o3.scale.set(sc3,sc3,sc3);o3.updateMatrix();GM.push(o3.matrix.clone());GC.push(new THREE.Color().setHSL(.2+.06*H(q2,5,31),.38,.34+.16*H(q2,6,31)))}}
  INST(ggeo,gm,GM,GC,false);
  // lights, env, contact shadows
- sc.add(new THREE.HemisphereLight(0xbfd4ee,0x8b8268,1.15));
+ sc.add(new THREE.HemisphereLight(0xbfd4ee,0x8b8268,1.5));sc.add(new THREE.AmbientLight(0xffffff,1.15));
  var sun=new THREE.DirectionalLight(0xfff0d8,2.3);sun.position.set(-8,11,22);sun.target.position.set(0,0,0);sc.add(sun,sun.target);
  sun.castShadow=false;var ms=matchMedia('(pointer:coarse)').matches?2048:4096;sun.shadow.mapSize.set(ms,ms);var sh=sun.shadow.camera;sh.left=-19;sh.right=19;sh.top=17;sh.bottom=-17;sh.near=1;sh.far=60;sun.shadow.bias=-.0004;sun.shadow.normalBias=.02;
  fill=new THREE.PointLight(0xffe6c8,.6,10);sc.add(fill);
