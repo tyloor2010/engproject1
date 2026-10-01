@@ -269,7 +269,7 @@ var shE=document.getElementById('sh'),ldE=document.getElementById('ld'),lr=-1,lp
 function draw(p,ts){
  if(!ready)return;var s=(ts||0)/1000,t=clamp(p,0,1),a=cpos.getPointAt(t),tp=cpos.getUtoTmapping(t),Lk=clook.getPoint(tp),room=PT[clamp(Math.round(tp*(PT.length-1)),0,PT.length-1)][6],ex=clamp(1-t*8,0,1);
  var fv=50+12*clamp(t*7,0,1);if(Math.abs(cam.fov-fv)>.01){cam.fov=fv;cam.updateProjectionMatrix()}
- var px=a.x+smx*.05+Math.sin(s*.22)*1.6*ex,py=a.y+smy*.02+Math.sin(s*.17)*.25*ex,pz=a.z+Math.cos(s*.19)*1.2*ex,tx=Lk.x+smx*.35,ty=Lk.y-smy*.12-dyA*.8,tz=Lk.z,th=dxA*ex*1.2,c1=Math.cos(th),s1=Math.sin(th),X=px*c1+pz*s1,Z=-px*s1+pz*c1,TX=tx*c1+tz*s1,TZ=-tx*s1+tz*c1,vx=TX-X,vz=TZ-Z,yw=dxA*(1-ex)*.9,c2=Math.cos(yw),s2=Math.sin(yw);
+ var px=a.x+smx*.05+Math.sin(s*.22)*1.6*ex,py=a.y+smy*.02+Math.sin(s*.17)*.25*ex+Math.sin(s*.6)*.012*(1-ex),pz=a.z+Math.cos(s*.19)*1.2*ex,tx=Lk.x+smx*.35,ty=Lk.y-smy*.12-dyA*.8,tz=Lk.z,th=dxA*ex*1.2,c1=Math.cos(th),s1=Math.sin(th),X=px*c1+pz*s1,Z=-px*s1+pz*c1,TX=tx*c1+tz*s1,TZ=-tx*s1+tz*c1,vx=TX-X,vz=TZ-Z,yw=dxA*(1-ex)*.9,c2=Math.cos(yw),s2=Math.sin(yw);
  cam.position.set(X,py,Z);cam.lookAt(X+vx*c2+vz*s2,ty,Z-vx*s2+vz*c2);fill.position.set(a.x,2.3,a.z);
  for(var k=0;k<ANIM.length;k++)ANIM[k](s);
  R.render(sc,cam);if(SAFE<99&&t<.02&&++fc%24===0)chk();
@@ -285,7 +285,7 @@ addEventListener('resize',function(){vw=innerWidth;vh=innerHeight;dirty=true;if(
 var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,last=0;
 var pr=Math.min(devicePixelRatio,MOB?1.25:1.75),prMax=pr,bestDt=1,acc=0,nf=0,good=0;
 (function loop(ts){var dt=Math.min((ts-last)/1000||.016,.05);last=ts;
- cur+=reduce?tgt-cur:(tgt-cur)*(1-Math.exp(-dt*6));var k2=1-Math.exp(-dt*2.2);smx+=(mx-smx)*k2;smy+=(my-smy)*k2;
+ cur+=reduce?tgt-cur:(tgt-cur)*(1-Math.exp(-dt*2.6));var k2=1-Math.exp(-dt*2.2);smx+=(mx-smx)*k2;smy+=(my-smy)*k2;
  if(!drag){dxA*=Math.exp(-dt*.7);dyA*=Math.exp(-dt*2)}
  draw(cur,reduce?0:ts);
  requestAnimationFrame(loop)})(0);
