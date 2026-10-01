@@ -55,9 +55,9 @@ function PM(c,s,rep,o,bs){var t=TX(c,rep);o.map=t[0];o.bumpMap=t[1];o.bumpScale=
 function build(){
  var cv=document.createElement('canvas');cv.id='gl';document.body.prepend(cv);
  R=new THREE.WebGLRenderer({canvas:cv,antialias:true,powerPreference:'high-performance'});R.setPixelRatio(Math.min(devicePixelRatio,MOB?1.25:1.5));R.setSize(vw,vh);
- R.outputEncoding=THREE.sRGBEncoding;R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.25;
- R.shadowMap.enabled=false;R.shadowMap.type=THREE.PCFSoftShadowMap;R.shadowMap.autoUpdate=false;
- sc=new THREE.Scene();sc.fog=new THREE.Fog(0xb8ccdb,60,240);
+ R.outputEncoding=THREE.sRGBEncoding;R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.0;
+ R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;R.shadowMap.autoUpdate=false;
+ sc=new THREE.Scene();sc.fog=new THREE.FogExp2(0xc9d6df,.0062);
  var g=document.createElement('canvas');g.width=4;g.height=256;var x=g.getContext('2d'),gr=x.createLinearGradient(0,0,0,256);
  gr.addColorStop(0,'#2a68ae');gr.addColorStop(.6,'#7fb1de');gr.addColorStop(1,'#cfe2f0');x.fillStyle=gr;x.fillRect(0,0,4,256);
  var st=new THREE.CanvasTexture(g);st.encoding=THREE.sRGBEncoding;
@@ -232,9 +232,9 @@ function build(){
  var GM=[],GC=[],GN=MOB?1000:2400;for(var q2=0,n2=0;n2<GN&&q2<GN*4;q2++){var gx=(H(q2,1,31)-.5)*90,gz=-45+H(q2,2,31)*100;if((Math.abs(gx)<12.8&&Math.abs(gz)<7.8)||(Math.abs(gx)<17.5&&gz>4&&gz<18.6))continue;n2++;var ry=H(q2,3,31)*3.14,sc3=.7+H(q2,4,31)*.9;for(var w=0;w<2;w++){o3.position.set(gx,0,gz);o3.rotation.set(0,ry+w*1.5708,0);o3.scale.set(sc3,sc3,sc3);o3.updateMatrix();GM.push(o3.matrix.clone());GC.push(new THREE.Color().setHSL(.2+.06*H(q2,5,31),.38,.34+.16*H(q2,6,31)))}}
  INST(ggeo,gm,GM,GC,false);
  // lights, env, contact shadows
- sc.add(new THREE.HemisphereLight(0xbfd4ee,0x8b8268,1.5));sc.add(new THREE.AmbientLight(0xffffff,1.15));
+ sc.add(new THREE.HemisphereLight(0xcfe0f2,0x6b6150,.45));
  var sun=new THREE.DirectionalLight(0xfff0d8,2.3);sun.position.set(-8,11,22);sun.target.position.set(0,0,0);sc.add(sun,sun.target);
- sun.castShadow=false;var ms=matchMedia('(pointer:coarse)').matches?2048:4096;sun.shadow.mapSize.set(ms,ms);var sh=sun.shadow.camera;sh.left=-19;sh.right=19;sh.top=17;sh.bottom=-17;sh.near=1;sh.far=60;sun.shadow.bias=-.0004;sun.shadow.normalBias=.02;
+ sun.castShadow=true;var ms=matchMedia('(pointer:coarse)').matches?2048:4096;sun.shadow.mapSize.set(ms,ms);var sh=sun.shadow.camera;sh.left=-19;sh.right=19;sh.top=17;sh.bottom=-17;sh.near=1;sh.far=60;sun.shadow.bias=-.0004;sun.shadow.normalBias=.02;
  fill=new THREE.PointLight(0xffe6c8,.6,10);sc.add(fill);
  var es=new THREE.Scene();es.add(new THREE.Mesh(new THREE.SphereGeometry(90,32,16),SKY));
  var sk=new THREE.Mesh(new THREE.PlaneGeometry(12,6),new THREE.MeshBasicMaterial({color:new THREE.Color(4.5,5,5.8)}));sk.position.set(0,3,11.5);sk.rotation.y=Math.PI;es.add(sk);
@@ -246,7 +246,7 @@ function build(){
  [[-4.5,1.2,4.6,1.9],[-4.5,2.9,2.3,1.5],[2.8,2.6,3.6,2.8],[7.2,2.4,3.6,1.9],[10.7,3.1,1.2,5.2],[9,-5.9,3.2,3],[6.1,-5.9,2,2.6],[3.6,-5.4,1.8,1.8],[.25,-6.3,3,1.6],[-3.75,-6.1,2.4,1.4],[-2.4,-4.9,1,1],[-4.88,-3.7,1.3,2.6],[-2.35,-3.2,.9,1.8],[-8.25,-5.9,3.4,3],[-10.7,-3.6,1.2,2.8],[-10,-.7,1.8,.9],[-7,4,1.4,1.4],[-2,4,1.4,1.4]].forEach(function(a){CS(a[0],a[1],a[2],a[3])});
  function V(a,o){return a.map(function(p){return new THREE.Vector3(p[o],p[o+1],p[o+2])})}
  cpos=new THREE.CatmullRomCurve3(V(PT,0),false,'catmullrom',.5);clook=new THREE.CatmullRomCurve3(V(PT,3),false,'catmullrom',.5);
- sc.traverse(function(o){if(o.material&&o.material.isMeshStandardMaterial){var old=o.material,m=new THREE.MeshBasicMaterial({color:old.color,map:old.map,transparent:old.transparent,opacity:old.opacity,alphaMap:old.alphaMap,alphaTest:old.alphaTest,side:old.side,depthWrite:old.depthWrite,vertexColors:old.vertexColors});m.userData=old.userData;o.material=m}});R.compile(sc,cam);ready=true;draw(0);
+ sc.traverse(function(o){if(o.isMesh&&o.material&&o.material.isMeshStandardMaterial){o.receiveShadow=true}});R.shadowMap.needsUpdate=true;R.compile(sc,cam);ready=true;draw(0);
 }
 var SAFE=0,fc=0,dbgE=document.getElementById('dbg'),dbgN=0;
 function dbg(){}
